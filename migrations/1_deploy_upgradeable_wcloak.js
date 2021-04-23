@@ -1,7 +1,7 @@
 const fs = require("fs");
 const { deployProxy } = require("@openzeppelin/truffle-upgrades");
 
-const Wnav = artifacts.require("WNAV");
+const Wnav = artifacts.require("WCLOAK");
 const config = JSON.parse(fs.readFileSync("../config.json").toString());
 
 const PRIVATE_KEY = config["privateKey"];
@@ -11,7 +11,7 @@ const MINTER_ROLE = web3.utils.sha3("MINTER_ROLE");
 const FEE_ADDRESS = config["ethFeeAddress"];
 
 module.exports = async function (deployer) {
-  const instance = await deployProxy(Wnav, ["Wrapped Navcoin", "WNAV"], { deployer });
+  const instance = await deployProxy(Wnav, ["Wrapped Cloakcoin", "WCLOAK"], { deployer });
   var token = await Wnav.deployed();
   console.log("Deployed", instance.address);
 
