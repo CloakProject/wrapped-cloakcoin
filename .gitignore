@@ -1,0 +1,7 @@
+config*.json
+node_modules/*
+build/*
+dapp/node_modules/*
+dapp/dist/*
+.secret
+.env
