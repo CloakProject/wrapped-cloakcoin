@@ -21,6 +21,7 @@
     "@types/mocha": "^8.2.1",
     "ganache-cli": "^6.12.1",
     "truffle": "^5.1.61",
-    "truffle-plugin-verify": "^0.5.7"
+    "truffle-plugin-verify": "^0.5.7",
+    "@openzeppelin/upgrades": "^2.8.0"
   }
 }
