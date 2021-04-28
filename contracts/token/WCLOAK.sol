@@ -1,4 +1,9 @@
-pragma solidity ^0.6.0;
+// SPDX-License-Identifier: MIT
+
+//** Wrapped Cloak Token*/
+//** Author Alex Hong : Cloak Coin Team 2021.4 */
+
+pragma solidity ^0.6.6;
 
 import "@openzeppelin/contracts-upgradeable/presets/ERC20PresetMinterPauserUpgradeable.sol";
 
