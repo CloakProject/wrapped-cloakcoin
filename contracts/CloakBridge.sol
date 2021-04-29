@@ -30,7 +30,7 @@ struct PoolToken {
     IERC20 token;
 }
 
-contract MatchPrediction is Ownable, ChainlinkClient {
+contract MatchPrediction is Ownable {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
@@ -48,7 +48,6 @@ contract MatchPrediction is Ownable, ChainlinkClient {
      * Add Token
      *
      * @param {token} IERC20 token
-     * @param {address} address of admin
      * @return {true}
      */
 
@@ -108,34 +107,6 @@ contract MatchPrediction is Ownable, ChainlinkClient {
         require(poolTokens[poolTokenAddress].active, "Token doensn't exist");
 
         return poolTokens[poolTokenAddress].token.balanceOf(address(this));
-    }
-
-    /**
-    //  * Withdraw ERC20
-    //  *
-    //  * @param {address} origin address
-    //  * @param {address} receiver address
-    */
-
-    function withdrawToken(address poolTokenAddress, address toAccount)
-        public
-        onlyOwner
-    {
-        require(
-            poolTokens[poolTokenAddress].active,
-            "Pool token doensn't exist"
-        );
-        require(
-            poolTokens[poolTokenAddress].admin == msg.sender,
-            "Should be admin"
-        );
-        require(
-            IERC20(poolTokenAddress).transfer(
-                toAccount,
-                IERC20(poolTokenAddress).balanceOf(address(this))
-            ),
-            "Withdraw ERC20 failed"
-        );
     }
 
     /**
