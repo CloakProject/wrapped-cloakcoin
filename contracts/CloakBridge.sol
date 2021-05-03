@@ -13,8 +13,8 @@ import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
 
 struct UserInfo {
     address wallet;
-    uint256 identifier;
     uint256 depositAmount;
+    uint256 joinDate;
     bool active;
 }
 
@@ -36,6 +36,7 @@ contract MatchPrediction is Ownable {
 
     mapping(uint256 => PoolInfo) public cloakPools;
     mapping(address => PoolToken) public poolTokens;
+    mapping(address => UserInfo) public memberPools;
 
     uint256 private poolCount;
     uint256[] private addressIndices;
@@ -123,6 +124,31 @@ contract MatchPrediction is Ownable {
         returns (uint256)
     {
         return amount.mul(rate);
+    }
+
+    /**
+     * Register account to user list
+     *
+     * @param {address} token address
+     * @return {bool}
+     */
+    function registerAccount(address poolTokenAddress)
+        external
+        payable
+        returns (bool)
+    {
+        require(
+            IERC20(poolTokenAddress).balanceOf(msg.sender) > 0,
+            "amount should available"
+        );
+        require(!memberPools[msg.sender].active, "User already registered");
+
+        memberPools[msg.sender].wallet = msg.sender;
+        memberPools[msg.sender].joinDate = block.timestamp;
+        memberPools[msg.sender].active = true;
+        memberPools[msg.sender].depositAmount = 0;
+
+        return true;
     }
 
     /**
