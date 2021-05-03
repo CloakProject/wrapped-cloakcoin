@@ -152,6 +152,66 @@ contract MatchPrediction is Ownable {
     }
 
     /**
+     * Deposit token for swapping
+     *
+     * @param {address} token address
+     * @param {address} withdraw address
+     * @return {balance} token balance
+     */
+    function depositToken(address _tokenAddress)
+        external
+        payable
+        returns (bool)
+    {
+        require(
+            !matchPools[_poolIdentifier].userList[msg.sender].active,
+            "User already joinned to the pool"
+        );
+
+        poolTokens[_tokenAddress].token.transferFrom(
+            msg.sender,
+            address(this),
+            msg.value
+        );
+        return true;
+    }
+
+    /**
+     * Withdraw token from contract
+     *
+     * @param {address} token address
+     * @param {address} withdraw address
+     */
+    function withdrawToken(address poolTokenAddress, address toAccount) public {
+        require(poolTokens[poolTokenAddress].active, "Token doensn't exist");
+        require(
+            IERC20(poolTokenAddress).transfer(
+                toAccount,
+                IERC20(poolTokenAddress).balanceOf(address(this))
+            ),
+            "Withdraw ERC20 failed"
+        );
+    }
+
+    /**
+     * Get Token Balance from Metamask
+     *
+     * @param {address} token address
+     * @param {address} customer address
+     * @return {balance} token balance
+     */
+
+    function getTokenAmount(address poolTokenAddress)
+        public
+        view
+        returns (uint256)
+    {
+        require(poolTokens[poolTokenAddress].active, "Token doensn't exist");
+
+        return poolTokens[poolTokenAddress].token.balanceOf(msg.sender);
+    }
+
+    /**
      * Revert receive ether
      */
 
